@@ -16,8 +16,8 @@ class ModelContainer:
     prefactor_pipe_diff = unyt_quantity(10**-0.95, "1 / s / (Pa**5)")
     prefactor_plasticity = unyt_quantity(10**6.94, "m**2 / s")
     sig_p_max = unyt_quantity(1.8, "GPa")
-    shear_mod = unyt_quantity(65.0, "GPa")
-    hardening_mod = unyt_quantity(135.0, "GPa")
+    shear_mod = unyt_quantity(65.0, "GPa")  # should be T dependent
+    hardening_mod = unyt_quantity(135.0, "GPa") # any T dependence?
 
     def __init__(
         self,
