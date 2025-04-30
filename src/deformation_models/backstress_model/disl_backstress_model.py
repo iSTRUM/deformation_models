@@ -17,9 +17,11 @@ class ModelContainer:
     prefactor_pipe_diff = unyt_quantity(10**-0.95, "1 / s / (Pa**5)")
     prefactor_plasticity = unyt_quantity(10**6.94, "m**2 / s")
     sig_p_max = unyt_quantity(1.8, "GPa")
-    shear_mod = unyt_quantity(65.0, "GPa")  # should be T dependent
-    hardening_mod = unyt_quantity(135.0, "GPa") # any T dependence?
+    shear_mod = unyt_quantity(65.0, "GPa")  # should be T dependent    
     taylor_constant = unyt_array(2.46, "") # see Breithaupt appendix
+
+    # assuming here that: hardening modulus = factor * shear modulus
+    hardening_shear_mod_ratio_factor = unyt_array(135./65., "") 
 
     def __init__(
         self,
@@ -46,6 +48,8 @@ class ModelContainer:
         """
         self.T = T.to("Kelvin")
         self.grain_size = grain_size
+
+        self.hardening_mod = self.shear_mod * self.hardening_shear_mod_ratio_factor
         self.A_gb = self.arrhenius(
             self.T, self.prefactor_gb_diff, self.activation_E_glide
         )
@@ -61,6 +65,7 @@ class ModelContainer:
         self.stress_omega = stress_omega
         self.stress_amp = stress_amp
         self.stress_bias = stress_bias
+
 
     @staticmethod
     def arrhenius(
