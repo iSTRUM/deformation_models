@@ -20,7 +20,9 @@ class ModelContainer:
     shear_mod = unyt_quantity(65.0, "GPa")  # should be T dependent    
     taylor_constant = unyt_array(2.46, "") # see Breithaupt appendix
 
-    # assuming here that: hardening modulus = factor * shear modulus
+    # assuming here that: hardening modulus = factor * shear modulus 
+    # following Breithaupt. Using values from Hein to calculate what
+    # that ratio is.
     hardening_shear_mod_ratio_factor = unyt_array(135./65., "") 
 
     def __init__(
@@ -71,7 +73,7 @@ class ModelContainer:
     def arrhenius(
         T: unyt_quantity, pre_factor: unyt_quantity, activation_energy: unyt_quantity
     ) -> unyt_quantity: 
-        return pre_factor * np.exp(-activation_energy / (gas_constant * T))
+        return pre_factor * np.exp(-activation_energy / (gas_constant * T.to('Kelvin')))
 
     def sig_ref_func(self) -> unyt_quantity:
         return (
@@ -96,9 +98,10 @@ class ModelContainer:
         )
         self.A_plastic = self.arrhenius(
             self.T, self.prefactor_plasticity, self.activation_E_glide
-        )
+        )        
         self.sig_ref = self.sig_ref_func()
         self.sig_d = self.sig_d_func()
+        self.A_plastic_prime = self.A_plastic_prime_func()
 
     def stress_t(self, t: unyt_quantity) -> unyt_quantity:
         """ calculate a stress for a given time """
@@ -113,6 +116,23 @@ def epsdot_p(t: unyt_quantity, sig_p: unyt_quantity, mc: ModelContainer) -> unyt
 
 
 def sigmadot_p(t: float, sig_p: float, mc: ModelContainer) -> np.ndarray:
+    """
+
+    Parameters:
+    -----------
+
+    t: float
+        time in seconds
+    sig_p: float 
+        current sigma_p in Mpa 
+    mc: ModelContainer
+        the model container for the solution
+
+    Returns:
+    --------
+    np.ndarray
+        value of sigmadot_p for the inputs
+    """
 
     t_s = unyt_quantity(t, 's')
     sig_p_MPa = unyt_quantity(sig_p, 'MPa')
@@ -123,9 +143,9 @@ def sigmadot_p(t: float, sig_p: float, mc: ModelContainer) -> np.ndarray:
 
     # calculate taylor stress rate
     fac1 = (mc.sig_d + sig_p_MPa)/sig_p_MPa * epsdot
-    fac2 = - sig_p_MPa / mc.sig_p_max * np.abs(epsdot)
-    fac3 = - mc.A_pipe * (sig_p_MPa ** 5)
-    fac4 = - mc.A_gb * sig_p_MPa ** 3 * mc.sig_d
+    fac2 = -1. *  sig_p_MPa / mc.sig_p_max * np.abs(epsdot)
+    fac3 = -1. * mc.A_pipe * (sig_p_MPa ** 5)
+    fac4 = -1. * mc.A_gb * (sig_p_MPa ** 3) * mc.sig_d
     M = mc.hardening_mod
     # print(f"{fac1=}, {fac2=}, {fac3=}, {fac4=}")
 
