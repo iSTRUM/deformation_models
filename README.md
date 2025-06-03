@@ -31,8 +31,8 @@ model, check the help for each for what is required.
 
 In addition to the forthcoming jupyter book, this repository has a few examples:
 
-- Calculating stress-strain curves for a Standard Linear Solid
-- Calculating attenuation with `deformation_models` and `pyleoclim`
+- [Calculating stress-strain curves for a Standard Linear Solid](https://github.com/iSTRUM/deformation_models/blob/main/docs/examples/ex_01_stress_strain_curves.ipynb)
+- [Calculating attenuation with `deformation_models` and `pyleoclim`](https://github.com/iSTRUM/deformation_models/blob/main/docs/examples/ex_02_attenuation_calculation.ipynb)
 
 <!-- SPHINX-START -->
 
