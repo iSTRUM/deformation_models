@@ -48,6 +48,7 @@ docs = [
   "sphinx_autodoc_typehints",
   "furo>=2023.08.17",
 ]
+examples = ["pyleoclim", "jupyterlab"]
 
 [project.urls]
 Homepage = "https://github.com/iSTRUM/deformation_models"
@@ -69,7 +70,7 @@ filterwarnings = [
 ]
 log_cli_level = "INFO"
 testpaths = [
-  "tests",
+  "src",
 ]
 
 

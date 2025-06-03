@@ -1,13 +1,38 @@
 # deformation_models
 
-[![Actions Status][actions-badge]][actions-link]
-[![Documentation Status][rtd-badge]][rtd-link]
+The `deformation_models` package is a tool for learning about phenomenological
+models of transient deformation (so called spring-dashpot models). It is meant
+to be used alongside a forthcoming Jupyter book tutorial, but at present there
+are a couple of notebooks in this repository (see below).
 
-[![PyPI version][pypi-version]][pypi-link]
-[![Conda-Forge][conda-badge]][conda-link]
-[![PyPI platforms][pypi-platforms]][pypi-link]
+## installation
 
-[![GitHub Discussion][github-discussions-badge]][github-discussions-link]
+To install from the `pypi` repository with dependencies required for the
+examples:
+
+```shell
+pip install "deformation-models[examples]"
+```
+
+## usage
+
+A number of deformation models are available at present:
+
+```python
+from deformation_models import SLS, AndradeModel, Burgers, MaxwellModel
+```
+
+Each of the models represents a phenomenological model (SLS above is standard
+linear solid). To use them, you generally supply values for the unrelaxed
+compliance and maxwell time scales for the various components making up each
+model, check the help for each for what is required.
+
+## examples
+
+In addition to the forthcoming jupyter book, this repository has a few examples:
+
+- Calculating stress-strain curves for a Standard Linear Solid
+- Calculating attenuation with `deformation_models` and `pyleoclim`
 
 <!-- SPHINX-START -->
 

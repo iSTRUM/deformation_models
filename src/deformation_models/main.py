@@ -54,6 +54,16 @@ class MaterialModel(abc.ABC):
 
 
 class MaxwellModel(MaterialModel):
+    def __init__(self, Ju, tau_m):
+        """Maxwell model
+
+        Parameters
+        ----------
+        Ju: unrelaxed compliance
+        tau_m: characteristic maxwell time
+        """
+        super().__init__(Ju, tau_m)
+
     def J_t(self, t):
         return self.Ju * (1 + t / self.tau_m)
 
@@ -67,6 +77,16 @@ class MaxwellModel(MaterialModel):
 
 class AndradeModel(MaterialModel):
     def __init__(self, Ju, tau_m, beta=1e-5, alpha=1.0 / 3):
+        """Andrade model
+
+        Parameters
+        ----------
+        Ju: unrelaxed compliance
+        tau_m: characteristic maxwell time
+        beta: optional beta-factor of the andrade model, default 1e-5
+        alpha: optional alpha-factor of the andrade model, default 1/3
+
+        """
         super().__init__(Ju, tau_m)
         self.beta = beta
         self.alpha = alpha
@@ -88,8 +108,16 @@ class AndradeModel(MaterialModel):
 
 
 class SLS(MaterialModel):
-    # zener model
     def __init__(self, Ju_1, tau_m, Ju_2):
+        """Standard Linear Solid (SLS) or Zener model
+
+        Parameters
+        ----------
+        Ju_1: unrelaxed compliance
+        tau_m: characteristic maxwell time
+        Ju_2: unrelaxed compliance of the maxwell-element
+
+        """
         super().__init__(Ju_1, tau_m)
         self.Ju_2 = Ju_2
 
@@ -108,6 +136,15 @@ class SLS(MaterialModel):
 
 class Burgers(MaterialModel):
     def __init__(self, Ju1, tau_m1, Ju2, tau_m2):
+        """Burgers model
+
+        Parameters
+        ----------
+        Ju_1: unrelaxed compliance of first element
+        tau_m1: characteristic maxwell time of first element
+        Ju_2: unrelaxed compliance of second element
+        tau_m2: characteristic maxwell time of second element
+        """
         super().__init__(Ju1, tau_m1)
         self.Ju_2 = Ju2
         self.tau_m_2 = tau_m2
