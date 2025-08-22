@@ -7,6 +7,13 @@ deformation_models: Phenomenological deformation models
 from __future__ import annotations
 
 from ._version import version as __version__
-from .main import SLS, AndradeModel, Burgers, MaxwellModel
+from .main import SLS, AndradeModel, Burgers, DeformationExperiment, MaxwellModel
 
-__all__ = ["__version__", "MaxwellModel", "AndradeModel", "SLS", "Burgers"]
+__all__ = [
+    "__version__",
+    "MaxwellModel",
+    "AndradeModel",
+    "SLS",
+    "Burgers",
+    "DeformationExperiment",
+]
