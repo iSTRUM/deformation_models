@@ -30,7 +30,8 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = ["numpy",
-                "scipy",]
+                "scipy",
+                "unyt"]
 
 [project.optional-dependencies]
 test = [
